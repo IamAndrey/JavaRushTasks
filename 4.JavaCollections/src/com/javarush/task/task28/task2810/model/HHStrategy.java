@@ -1,7 +1,11 @@
 package com.javarush.task.task28.task2810.model;
 
 import com.javarush.task.task28.task2810.vo.Vacancy;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -14,6 +18,15 @@ public class HHStrategy implements Strategy {
 
     @Override
     public List<Vacancy> getVacancies(String searchString) {
-        return Collections.emptyList();
+        List<Vacancy> vacancies = new ArrayList<>();
+        if (searchString == null)
+            return Collections.emptyList();
+        try {
+            Document doc = Jsoup.connect(URL_FORMAT).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return vacancies;
     }
 }
