@@ -11,44 +11,53 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by Andrey on 16.04.2017.
+ * Created by Andrey on 20.04.2017.
  */
-public class HHStrategy implements Strategy {
+public class MoikrugStrategy implements Strategy {
 
-    private static final String URL_FORMAT = "http://hh.ua/search/vacancy?text=java+%s&page=%d";
+    private static final String URL_FORMAT = "https://moikrug.ru/vacancies?q=java+%s&page=%d";
 
     @Override
     public List<Vacancy> getVacancies(String searchString) {
         List<Vacancy> vacancies = new ArrayList<>();
         if (searchString == null)
             return Collections.emptyList();
+
         int j = 0;
         while (true) {
             try {
                 Document doc = getDocument(searchString, j++);
-                Elements elements = doc.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy");
-                if (elements.size() > 1) {
+                Elements elements = doc.getElementsByClass("Job");
+                if (elements.size() > 1){
                     for (int i = 0; i < elements.size(); i++) {
+                        String siteName = "https://moikrug.ru";
                         Vacancy vacancy = new Vacancy();
 
-                        String title = elements.get(i).getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy-title").text();
+                        // title
+                        String title = elements.get(i).getElementsByClass("title").text();
                         vacancy.setTitle(title);
 
-                        String salary = elements.get(i).getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy-compensation").text();
+                        // salary
+                        String salary = elements.get(i).getElementsByClass("salary").text();
                         if (salary != null)
                             vacancy.setSalary(salary);
                         else vacancy.setSalary("");
 
-                        String city = elements.get(i).getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy-address").text();
-                        vacancy.setCity(city);
+                        // city
+                        String city = elements.get(i).getElementsByClass("location").text();
+                        if (city != null)
+                            vacancy.setCity(city);
+                        else vacancy.setCity("");
 
-                        String companyName = elements.get(i).getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy-employer").text();
+                        // companyName
+                        String companyName = elements.get(i).getElementsByClass("company_name").text();
                         vacancy.setCompanyName(companyName);
 
-                        String url = elements.get(i).getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy-title").attr("href");
-                        vacancy.setUrl(url);
+                        // url;
+                        String url = elements.get(i).getElementsByClass("title").first().child(0).attr("href");
+                        vacancy.setUrl(siteName+url);
 
-                        String siteName = "http://hh.ua";
+                        // siteNa
                         vacancy.setSiteName(siteName);
 
                         vacancies.add(vacancy);

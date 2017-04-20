@@ -18,8 +18,8 @@ import java.util.List;
 public class HtmlView implements View {
 
     private Controller controller;
-    private final String filePath = "./src/" + getClass().getPackage().getName().replaceAll("\\.", "/") + "/vacancies.html";
-    //private final String filePath = "c:\\Users\\Andrey\\JavaRushHomeWork\\JavaRushHomeWork\\src\\JavaRushTasks\\4.JavaCollections\\src\\com\\javarush\\task\\task28\\task2810\\view\\vacancies.html";
+    //private final String filePath = "./src/" + getClass().getPackage().getName().replaceAll("\\.", "/") + "/vacancies.html";
+    private final String filePath = "c:\\Users\\Andrey\\JavaRushHomeWork\\JavaRushHomeWork\\src\\JavaRushTasks\\4.JavaCollections\\src\\com\\javarush\\task\\task28\\task2810\\view\\vacancies.html";
 
     @Override
     public void update(List<Vacancy> vacancies) {
